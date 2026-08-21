@@ -1,24 +1,46 @@
 from typing import List, Tuple
-from backend.models.schemas import Finding, SeverityLevel
+from backend.models.schemas import Finding, SeverityLevel, SecurityCategory
 
-SEVERITY_PENALTIES = {
-    SeverityLevel.CRITICAL: 25,
-    SeverityLevel.HIGH: 15,
-    SeverityLevel.MEDIUM: 8,
-    SeverityLevel.LOW: 3,
-    SeverityLevel.INFO: 0
+CATEGORY_WEIGHTS = {
+    SecurityCategory.AUTH: 25,
+    SecurityCategory.AUTHZ: 20,
+    SecurityCategory.INPUT_VALIDATION: 15,
+    SecurityCategory.RATE_LIMITING: 10,
+    SecurityCategory.SECURITY_HEADERS: 15,
+    SecurityCategory.INFO_DISCLOSURE: 15,
+}
+
+SEVERITY_DEDUCTION_RATIO = {
+    SeverityLevel.CRITICAL: 1.0,
+    SeverityLevel.HIGH: 0.8,
+    SeverityLevel.MEDIUM: 0.5,
+    SeverityLevel.LOW: 0.2,
+    SeverityLevel.INFO: 0.0,
 }
 
 def calculate_security_score(findings: List[Finding]) -> Tuple[int, str]:
     """
-    Calculates a deterministic security score from 0 to 100 based on finding severities.
+    Calculates a deterministic security score from 0 to 100 based on the worst
+    severity finding per security category, weighted by category importance.
     Returns (score, grade).
     """
-    total_penalty = 0
+    # Group findings by category and find worst severity ratio per category
+    worst_ratio_per_category = {}
     for finding in findings:
-        total_penalty += SEVERITY_PENALTIES.get(finding.severity, 0)
-    
-    score = max(0, min(100, 100 - total_penalty))
+        category = finding.category
+        ratio = SEVERITY_DEDUCTION_RATIO.get(finding.severity, 0.0)
+        
+        if category not in worst_ratio_per_category:
+            worst_ratio_per_category[category] = ratio
+        else:
+            worst_ratio_per_category[category] = max(worst_ratio_per_category[category], ratio)
+            
+    total_deduction = 0.0
+    for category, worst_ratio in worst_ratio_per_category.items():
+        weight = CATEGORY_WEIGHTS.get(category, 0)
+        total_deduction += weight * worst_ratio
+        
+    score = max(0, min(100, round(100 - total_deduction)))
     
     if score >= 90:
         grade = "A"
