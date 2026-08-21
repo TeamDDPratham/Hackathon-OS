@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import ScanGridButton from '../components/originkit/ui/scan-grid-button';
 import Preloader from '../components/Preloader';
+import { SeveritySelect } from '../components/SeveritySelect';
 import { AnimatePresence } from 'framer-motion';
 
 export default function Dashboard() {
@@ -415,17 +416,17 @@ export default function Dashboard() {
                     />
                   </div>
 
-                  <select
+                  <SeveritySelect
                     value={selectedSeverity}
-                    onChange={(e) => setSelectedSeverity(e.target.value)}
-                    className="bg-[#151b2b] border border-[#1f2940] text-xs font-mono text-blue-100/80 rounded-lg px-3 py-1.5 focus:outline-none focus:border-cyan-500"
-                  >
-                    <option value="ALL">All Severities</option>
-                    <option value="CRITICAL">Critical</option>
-                    <option value="HIGH">High</option>
-                    <option value="MEDIUM">Medium</option>
-                    <option value="LOW">Low</option>
-                  </select>
+                    onChange={setSelectedSeverity}
+                    options={[
+                      { value: 'ALL', label: 'All Severities' },
+                      { value: 'CRITICAL', label: 'Critical' },
+                      { value: 'HIGH', label: 'High' },
+                      { value: 'MEDIUM', label: 'Medium' },
+                      { value: 'LOW', label: 'Low' }
+                    ]}
+                  />
                 </div>
               )}
             </div>
