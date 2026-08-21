@@ -67,6 +67,15 @@ class ScanStore:
             for s in sorted(self.scans.values(), key=lambda x: x.created_at, reverse=True)
         ]
 
+def normalize_target_url(raw_url: str) -> str:
+    url = raw_url.strip()
+    if not url.startswith("http://") and not url.startswith("https://"):
+        if "localhost" in url or "127.0.0.1" in url:
+            url = f"http://{url}"
+        else:
+            url = f"https://{url}"
+    return url.rstrip("/")
+
 scan_store = ScanStore()
 
 async def execute_scan(scan_id: str, request: ScanRequest):
@@ -76,46 +85,66 @@ async def execute_scan(scan_id: str, request: ScanRequest):
 
     start_time = time.time()
     scan.status = ScanStatus.RUNNING
+    target_url = normalize_target_url(request.target_url)
+    scan.target_url = target_url
 
-    async with httpx.AsyncClient(verify=False, follow_redirects=True) as client:
+    async with httpx.AsyncClient(verify=False, follow_redirects=True, timeout=10.0) as client:
         try:
             # 1. Endpoint Discovery
-            endpoints = await discover_endpoints(client, request.target_url, request.openapi_spec)
+            endpoints = await discover_endpoints(client, target_url, request.openapi_spec)
             scan.endpoints = endpoints
             scan.endpoints_count = len(endpoints)
 
             all_findings: List[Finding] = []
 
-            # 2. Execute Modular Security Checks
+            # 2. Execute Modular Security Checks with per-module isolation
             # Module 1: Auth Tests
-            auth_findings = await test_authentication(client, request.target_url, endpoints, request.auth_token, request.auth_header_name)
-            all_findings.extend(auth_findings)
-            scan.tests_completed += len(endpoints)
+            try:
+                auth_findings = await test_authentication(client, target_url, endpoints, request.auth_token, request.auth_header_name)
+                all_findings.extend(auth_findings)
+                scan.tests_completed += len(endpoints)
+            except Exception as e:
+                print(f"[Module Error - Auth]: {e}")
 
             # Module 2: BOLA / AuthZ Tests
-            bola_findings = await test_authorization_bola(client, request.target_url, endpoints, request.auth_token)
-            all_findings.extend(bola_findings)
-            scan.tests_completed += len(endpoints)
+            try:
+                bola_findings = await test_authorization_bola(client, target_url, endpoints, request.auth_token)
+                all_findings.extend(bola_findings)
+                scan.tests_completed += len(endpoints)
+            except Exception as e:
+                print(f"[Module Error - BOLA]: {e}")
 
             # Module 3: Input Validation Tests
-            val_findings = await test_input_validation(client, request.target_url, endpoints, request.auth_token)
-            all_findings.extend(val_findings)
-            scan.tests_completed += len(endpoints)
+            try:
+                val_findings = await test_input_validation(client, target_url, endpoints, request.auth_token)
+                all_findings.extend(val_findings)
+                scan.tests_completed += len(endpoints)
+            except Exception as e:
+                print(f"[Module Error - Validation]: {e}")
 
             # Module 4: Security Headers Tests
-            hdr_findings = await test_security_headers(client, request.target_url, endpoints)
-            all_findings.extend(hdr_findings)
-            scan.tests_completed += 4
+            try:
+                hdr_findings = await test_security_headers(client, target_url, endpoints)
+                all_findings.extend(hdr_findings)
+                scan.tests_completed += 4
+            except Exception as e:
+                print(f"[Module Error - Headers]: {e}")
 
             # Module 5: Rate Limiting Tests
-            rate_findings = await test_rate_limiting(client, request.target_url, endpoints)
-            all_findings.extend(rate_findings)
-            scan.tests_completed += 6
+            try:
+                rate_findings = await test_rate_limiting(client, target_url, endpoints)
+                all_findings.extend(rate_findings)
+                scan.tests_completed += 6
+            except Exception as e:
+                print(f"[Module Error - RateLimit]: {e}")
 
             # Module 6: Information Disclosure Tests
-            disc_findings = await test_information_disclosure(client, request.target_url, endpoints)
-            all_findings.extend(disc_findings)
-            scan.tests_completed += len(endpoints)
+            try:
+                disc_findings = await test_information_disclosure(client, target_url, endpoints)
+                all_findings.extend(disc_findings)
+                scan.tests_completed += len(endpoints)
+            except Exception as e:
+                print(f"[Module Error - Disclosure]: {e}")
 
             # 3. Categorize & Score Findings
             scan.findings = all_findings

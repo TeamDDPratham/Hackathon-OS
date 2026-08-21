@@ -20,9 +20,9 @@ async def test_authorization_bola(
             resource_type = match.group(1)
             # Test sequential IDs (e.g., ID 1 vs ID 2 vs ID 3) to test Broken Object Level Authorization
             test_paths = [
-                re.sub(r"/\d+|\{[^}]+\}", "/1", ep.path),
-                re.sub(r"/\d+|\{[^}]+\}", "/2", ep.path),
-                re.sub(r"/\d+|\{[^}]+\}", "/3", ep.path)
+                re.sub(r"(?<=/)(?:\d+|\{[^}]+\})", "1", ep.path),
+                re.sub(r"(?<=/)(?:\d+|\{[^}]+\})", "2", ep.path),
+                re.sub(r"(?<=/)(?:\d+|\{[^}]+\})", "3", ep.path)
             ]
             
             try:
