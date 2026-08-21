@@ -622,7 +622,7 @@ export default function ScanGridButton(props: Props) {
                             className="char"
                             style={{ display: "inline-block" }}
                         >
-                            {char === " " ? " " : char}
+                            {char === " " ? "\u00A0" : char}
                         </motion.span>
                     ))}
                 </span>
