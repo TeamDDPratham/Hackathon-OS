@@ -28,6 +28,7 @@ export default function Dashboard() {
   const [backendHealth, setBackendHealth] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<'findings' | 'endpoints'>('findings');
   const [searchQuery, setSearchQuery] = useState('');
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [isOpenApiModalOpen, setIsOpenApiModalOpen] = useState(false);
   const [importedSpec, setImportedSpec] = useState<Record<string, unknown> | null>(null);
   const [customEndpoints, setCustomEndpoints] = useState<DiscoveredEndpoint[]>([]);
@@ -405,14 +406,16 @@ export default function Dashboard() {
 
               {activeTab === 'findings' && (
                 <div className="flex items-center space-x-3 w-full sm:w-auto">
-                  <div className="relative flex-1 sm:w-64">
-                    <Search className="w-3.5 h-3.5 text-blue-300/40 absolute left-3 top-2.5" />
+                  <div className="relative flex-1 sm:w-64 group">
+                    <Search className={`w-3.5 h-3.5 absolute left-3 top-2.5 transition-colors ${isSearchFocused ? 'text-cyan-500' : 'text-blue-300/40 group-hover:text-blue-300/70'}`} />
                     <input
                       type="text"
-                      placeholder="Filter issues..."
+                      placeholder={isSearchFocused ? "Type to search..." : "Filter issues..."}
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full bg-[#151b2b] border border-[#1f2940] rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
+                      onFocus={() => setIsSearchFocused(true)}
+                      onBlur={() => setIsSearchFocused(false)}
+                      className="w-full bg-[#151b2b] hover:bg-[#1a2133] border border-[#1f2940] rounded-xl pl-9 pr-3 py-1.5 text-xs text-slate-200 focus:bg-[#0a0f1c] focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/30 transition-all font-mono"
                     />
                   </div>
 
