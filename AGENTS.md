@@ -189,8 +189,8 @@ Mode:           NORMAL       ACCELERATED   MVP LOCK      DEMO FREEZE   SUBMISSIO
                                                    [ALLOWED]     [NOT ALLOWED]
                                                        │               │
                                                        ▼               ▼
-                                                  ROUTE WORKFLOW  ESCALATE TO
-                                                 (Code/Sec/UX/AI)    HUMAN
+                                                ROUTE WORKFLOW    ESCALATE TO
+                                                (Specific Table)     HUMAN
                                                        │
                                                        ▼
                                                   FIX + VERIFY
@@ -201,6 +201,29 @@ Mode:           NORMAL       ACCELERATED   MVP LOCK      DEMO FREEZE   SUBMISSIO
                                                        ▼
                                                 RE-RUN FINAL-AUDIT
 ```
+
+### Final Audit Blocker Routing Table:
+When `final-audit` detects a blocker, it must classify the issue and route strictly to the single most specific specialist workflow:
+
+| Blocker Category | Target Specialist Workflow / Skill | Recovery Responsibility |
+| :--- | :--- | :--- |
+| **CODE / BUG** | `test-project` | Fix logic/API defects and verify unit/integration tests |
+| **SECURITY** | `security-review` | Patch auth loopholes, secret leaks, or injection risks |
+| **UX / UI** | `polish-product` | Fix layout shifts, missing 4-state UI, or micro-interactions |
+| **AI / MODEL** | `ai-engineering` (Skill) / `build-feature` | Enforce JSON schemas, prompt retries, or model fallbacks |
+| **PERFORMANCE** | `performance` (Skill) / `polish-product` | Eliminate latency bottlenecks and enable token streaming |
+| **ARCHITECTURE** | `design-architecture` | Restore layered service boundaries and record ADRs |
+| **DEMO / RELIABILITY** | `demo-resilience` | Update mock fixtures and tune 3.5s timeout fallbacks |
+| **PRODUCT / JUDGE** | `judge-review` | Sharpen value proposition and 60–90s killer differentiator |
+| **DOCUMENTATION** | `documentation` | Synchronize README, current-state, or submission assets |
+
+### Recovery Routing Rules:
+1. **Classification First**: `final-audit` must classify the blocker into the exact category above before routing.
+2. **Most Specific Workflow**: The agent must execute only the specific routed workflow; running unrelated workflows is prohibited.
+3. **Mandatory Regression**: Every fix must be followed immediately by `regression-test.md`.
+4. **Non-Terminating Loop**: After `regression-test.md` passes, the system MUST re-run `final-audit.md`.
+5. **Time Mode Compliance**: If the required remediation is **NOT ALLOWED** under the active Time Controller mode (e.g. attempting a major architecture rewrite during DEMO FREEZE), the agent MUST escalate to the human rather than forcing the change.
+
 
 ---
 
