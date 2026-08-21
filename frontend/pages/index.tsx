@@ -139,10 +139,10 @@ export default function Dashboard() {
           </div>
 
           <div className="flex items-center space-x-3">
-            <div className="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-[#151b2b] border border-[#1f2940] text-xs font-mono">
-              <div className={`w-2 h-2 rounded-full ${backendHealth ? 'bg-emerald-400 animate-pulse' : 'bg-red-500'}`} />
-              <span className="text-blue-100/80">CORE ENGINE: {backendHealth ? 'ONLINE' : 'OFFLINE'}</span>
-            </div>
+              <div className="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-[#151b2b] border border-cyan-500/50 shadow-[0_0_10px_rgba(6,182,212,0.4)] text-xs font-mono">
+                <div className={`w-2 h-2 rounded-full ${backendHealth ? 'bg-emerald-400 animate-pulse' : 'bg-red-500'}`} />
+                <span className="text-blue-100/80">CORE ENGINE: {backendHealth ? 'ONLINE' : 'OFFLINE'}</span>
+              </div>
 
             <div style={{ opacity: isScanning ? 0.5 : 1, pointerEvents: isScanning ? 'none' : 'auto' }}>
               <ScanGridButton
