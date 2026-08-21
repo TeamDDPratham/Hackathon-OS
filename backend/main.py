@@ -71,7 +71,7 @@ def get_scan_endpoints(scan_id: str):
 @app.post("/api/demo/scan", response_model=ScanDetail, summary="1-Click Demo Scan against Local Vulnerable Target")
 async def trigger_demo_scan(background_tasks: BackgroundTasks):
     demo_request = ScanRequest(
-        target_url="http://127.0.0.1:8000",
+        target_url="http://127.0.0.1:8000/api/mock-vulnerable",
         auth_token="demo-alice-student-token",
         custom_headers={"X-Demo-Mode": "true"}
     )

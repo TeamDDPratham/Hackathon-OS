@@ -76,34 +76,34 @@ def get_mock_openapi():
             "description": "Safe simulated API target with pre-configured OWASP API Top 10 vulnerabilities for testing."
         },
         "paths": {
-            "/api/mock-vulnerable/admin/users": {
+            "/admin/users": {
                 "get": {
                     "summary": "List all administrative users",
                     "responses": {"200": {"description": "OK"}}
                 }
             },
-            "/api/mock-vulnerable/users/{user_id}": {
+            "/users/{user_id}": {
                 "get": {
                     "summary": "Fetch user profile by ID",
                     "parameters": [{"name": "user_id", "in": "path", "required": True, "schema": {"type": "integer"}}],
                     "responses": {"200": {"description": "OK"}}
                 }
             },
-            "/api/mock-vulnerable/search": {
+            "/search": {
                 "post": {
                     "summary": "Search catalog items",
                     "requestBody": {"content": {"application/json": {"schema": {"type": "object", "properties": {"query": {"type": "string"}}}}}},
                     "responses": {"200": {"description": "OK"}}
                 }
             },
-            "/api/mock-vulnerable/auth/login": {
+            "/auth/login": {
                 "post": {
                     "summary": "Authenticate user",
                     "requestBody": {"content": {"application/json": {"schema": {"type": "object", "properties": {"username": {"type": "string"}, "password": {"type": "string"}}}}}},
                     "responses": {"200": {"description": "OK"}}
                 }
             },
-            "/api/mock-vulnerable/health": {
+            "/health": {
                 "get": {
                     "summary": "Health check",
                     "responses": {"200": {"description": "OK"}}
