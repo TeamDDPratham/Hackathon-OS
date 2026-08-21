@@ -105,7 +105,7 @@ export default function Dashboard() {
   }) || [];
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-cyan-500 selection:text-black">
+    <div className="min-h-screen bg-[#0a0f1c] text-slate-100 font-sans selection:bg-cyan-500 selection:text-black">
       <Head>
         <title>Sentinel API – Automated API Security Testing Platform</title>
         <meta name="description" content="Automated OWASP API vulnerability scanner and security assessment platform." />
@@ -113,10 +113,10 @@ export default function Dashboard() {
       </Head>
 
       {/* Top Navbar */}
-      <header className="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md sticky top-0 z-40">
+      <header className="border-b border-[#1f2940] bg-[#0a0f1c]/80 backdrop-blur-md sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-cyan-900/30">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-cyan-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-cyan-900/30">
               <ShieldCheck className="w-6 h-6 text-white" />
             </div>
             <div>
@@ -128,14 +128,14 @@ export default function Dashboard() {
                   v1.0 DEFENSE
                 </span>
               </div>
-              <p className="text-xs text-slate-400 font-mono">Automated API Security Testing Platform</p>
+              <p className="text-xs text-blue-200/60 font-mono">Automated API Security Testing Platform</p>
             </div>
           </div>
 
           <div className="flex items-center space-x-3">
-            <div className="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono">
+            <div className="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-[#151b2b] border border-[#1f2940] text-xs font-mono">
               <div className={`w-2 h-2 rounded-full ${backendHealth ? 'bg-emerald-400 animate-pulse' : 'bg-red-500'}`} />
-              <span className="text-slate-300">CORE ENGINE: {backendHealth ? 'ONLINE' : 'OFFLINE'}</span>
+              <span className="text-blue-100/80">CORE ENGINE: {backendHealth ? 'ONLINE' : 'OFFLINE'}</span>
             </div>
 
             <div style={{ opacity: isScanning ? 0.5 : 1, pointerEvents: isScanning ? 'none' : 'auto' }}>
@@ -157,9 +157,9 @@ export default function Dashboard() {
       {/* Main Container */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         {/* Target Configuration Card */}
-        <section className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 backdrop-blur-md shadow-xl">
+        <section className="bg-[#151b2b] border border-[#1f2940] rounded-3xl p-6 backdrop-blur-md shadow-xl">
           <form onSubmit={handleStartCustomScan} className="space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-800/60 pb-3">
+            <div className="flex items-center justify-between border-b border-[#1f2940] pb-3">
               <div className="flex items-center space-x-2 text-sm font-bold text-slate-200">
                 <Terminal className="w-4 h-4 text-cyan-400" />
                 <span>API Target & Probing Configuration</span>
@@ -168,7 +168,7 @@ export default function Dashboard() {
                 <button
                   type="button"
                   onClick={() => setIsOpenApiModalOpen(true)}
-                  className="flex items-center space-x-1.5 px-3 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-400 text-xs font-mono rounded-lg border border-slate-700 transition-colors"
+                  className="flex items-center space-x-1.5 px-3 py-1 bg-[#1f2940] hover:bg-slate-700 text-cyan-400 text-xs font-mono rounded-lg border border-[#2e3c59] transition-colors"
                 >
                   <FileJson className="w-3.5 h-3.5" />
                   <span>{importedSpec ? 'OpenAPI Spec Active ✓' : 'Import OpenAPI Spec'}</span>
@@ -178,29 +178,29 @@ export default function Dashboard() {
 
             <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
               <div className="md:col-span-6 space-y-1.5">
-                <label className="text-xs font-mono text-slate-400 uppercase">Target Base URL</label>
+                <label className="text-xs font-mono text-blue-200/60 uppercase">Target Base URL</label>
                 <div className="relative">
-                  <Server className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+                  <Server className="w-4 h-4 text-blue-300/40 absolute left-3.5 top-3" />
                   <input
                     type="text"
                     value={targetUrl}
                     onChange={(e) => setTargetUrl(e.target.value)}
                     placeholder="https://api.yourcompany.com"
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-10 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-cyan-500 font-mono transition-colors"
+                    className="w-full bg-[#0a0f1c] border border-[#1f2940] rounded-2xl px-10 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-cyan-500 font-mono transition-colors"
                   />
                 </div>
               </div>
 
               <div className="md:col-span-4 space-y-1.5">
-                <label className="text-xs font-mono text-slate-400 uppercase">Optional Auth Bearer Token</label>
+                <label className="text-xs font-mono text-blue-200/60 uppercase">Optional Auth Bearer Token</label>
                 <div className="relative">
-                  <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+                  <Lock className="w-4 h-4 text-blue-300/40 absolute left-3.5 top-3" />
                   <input
                     type="text"
                     value={authToken}
                     onChange={(e) => setAuthToken(e.target.value)}
                     placeholder="Bearer JWT or API Key"
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-10 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-cyan-500 font-mono transition-colors"
+                    className="w-full bg-[#0a0f1c] border border-[#1f2940] rounded-2xl px-10 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-cyan-500 font-mono transition-colors"
                   />
                 </div>
               </div>
@@ -223,12 +223,12 @@ export default function Dashboard() {
             </div>
 
             {importedSpec && customEndpoints.length > 0 && (
-              <div className="p-3 bg-cyan-950/20 border border-cyan-800/40 rounded-xl flex items-center justify-between text-xs font-mono text-cyan-300">
+              <div className="p-3 bg-cyan-950/20 border border-cyan-800/40 rounded-2xl flex items-center justify-between text-xs font-mono text-cyan-300">
                 <span>Loaded {customEndpoints.length} endpoint(s) from OpenAPI specification schema.</span>
                 <button
                   type="button"
                   onClick={() => { setImportedSpec(null); setCustomEndpoints([]); }}
-                  className="text-slate-400 hover:text-red-400 underline"
+                  className="text-blue-200/60 hover:text-red-400 underline"
                 >
                   Clear Spec
                 </button>
@@ -245,43 +245,43 @@ export default function Dashboard() {
               <ScoreGauge score={scan.score} grade={scan.grade} />
 
               {/* Status Overview Card */}
-              <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-3 font-mono text-xs">
-                <div className="flex justify-between items-center text-slate-400">
+              <div className="bg-[#151b2b] border border-[#1f2940] rounded-3xl p-5 space-y-3 font-mono text-xs">
+                <div className="flex justify-between items-center text-blue-200/60">
                   <span>STATUS:</span>
                   <span className={`font-bold px-2 py-0.5 rounded ${scan.status === 'COMPLETED' ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-cyan-950 text-cyan-400 border border-cyan-800 animate-pulse'}`}>
                     {scan.status}
                   </span>
                 </div>
-                <div className="flex justify-between items-center text-slate-400">
+                <div className="flex justify-between items-center text-blue-200/60">
                   <span>TARGET:</span>
                   <span className="text-slate-200 truncate max-w-[200px]" title={scan.target_url}>{scan.target_url}</span>
                 </div>
-                <div className="flex justify-between items-center text-slate-400">
+                <div className="flex justify-between items-center text-blue-200/60">
                   <span>ENDPOINTS:</span>
                   <span className="text-slate-200 font-bold">{scan.endpoints_count}</span>
                 </div>
-                <div className="flex justify-between items-center text-slate-400">
+                <div className="flex justify-between items-center text-blue-200/60">
                   <span>SECURITY TESTS:</span>
                   <span className="text-slate-200 font-bold">{scan.tests_completed}</span>
                 </div>
-                <div className="flex justify-between items-center text-slate-400">
+                <div className="flex justify-between items-center text-blue-200/60">
                   <span>DURATION:</span>
                   <span className="text-slate-200">{scan.duration_seconds}s</span>
                 </div>
 
                 {/* Report Export Buttons */}
                 {scan.status === 'COMPLETED' && (
-                  <div className="pt-3 border-t border-slate-800 grid grid-cols-2 gap-2">
+                  <div className="pt-3 border-t border-[#1f2940] grid grid-cols-2 gap-2">
                     <button
                       onClick={() => exportScanAsMarkdown(scan)}
-                      className="flex items-center justify-center space-x-1.5 py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl transition-colors text-[11px]"
+                      className="flex items-center justify-center space-x-1.5 py-2 px-3 bg-[#1f2940] hover:bg-slate-700 text-slate-200 rounded-2xl transition-colors text-[11px]"
                     >
                       <FileText className="w-3.5 h-3.5 text-cyan-400" />
                       <span>Export .MD</span>
                     </button>
                     <button
                       onClick={() => exportScanAsJson(scan)}
-                      className="flex items-center justify-center space-x-1.5 py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl transition-colors text-[11px]"
+                      className="flex items-center justify-center space-x-1.5 py-2 px-3 bg-[#1f2940] hover:bg-slate-700 text-slate-200 rounded-2xl transition-colors text-[11px]"
                     >
                       <Download className="w-3.5 h-3.5 text-emerald-400" />
                       <span>Export .JSON</span>
@@ -295,76 +295,76 @@ export default function Dashboard() {
             <div className="lg:col-span-8 space-y-6">
               {/* Severity Pill Counts */}
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-                <div className="bg-red-950/30 border border-red-900/40 rounded-xl p-4 text-center">
+                <div className="bg-red-950/30 border border-red-900/40 rounded-2xl p-4 text-center">
                   <span className="text-xs font-mono text-red-400 block uppercase font-bold">Critical</span>
                   <span className="text-2xl font-extrabold font-mono text-red-300 mt-1 block">{scan.critical_count}</span>
                 </div>
-                <div className="bg-orange-950/30 border border-orange-900/40 rounded-xl p-4 text-center">
+                <div className="bg-orange-950/30 border border-orange-900/40 rounded-2xl p-4 text-center">
                   <span className="text-xs font-mono text-orange-400 block uppercase font-bold">High</span>
                   <span className="text-2xl font-extrabold font-mono text-orange-300 mt-1 block">{scan.high_count}</span>
                 </div>
-                <div className="bg-amber-950/30 border border-amber-900/40 rounded-xl p-4 text-center">
+                <div className="bg-amber-950/30 border border-amber-900/40 rounded-2xl p-4 text-center">
                   <span className="text-xs font-mono text-amber-400 block uppercase font-bold">Medium</span>
                   <span className="text-2xl font-extrabold font-mono text-amber-300 mt-1 block">{scan.medium_count}</span>
                 </div>
-                <div className="bg-blue-950/30 border border-blue-900/40 rounded-xl p-4 text-center">
+                <div className="bg-blue-950/30 border border-blue-900/40 rounded-2xl p-4 text-center">
                   <span className="text-xs font-mono text-blue-400 block uppercase font-bold">Low</span>
                   <span className="text-2xl font-extrabold font-mono text-blue-300 mt-1 block">{scan.low_count}</span>
                 </div>
-                <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4 text-center col-span-2 sm:col-span-1">
-                  <span className="text-xs font-mono text-slate-400 block uppercase font-bold">Total Issues</span>
+                <div className="bg-[#151b2b] border border-[#1f2940] rounded-2xl p-4 text-center col-span-2 sm:col-span-1">
+                  <span className="text-xs font-mono text-blue-200/60 block uppercase font-bold">Total Issues</span>
                   <span className="text-2xl font-extrabold font-mono text-white mt-1 block">{scan.total_findings}</span>
                 </div>
               </div>
 
               {/* Category Breakdown Matrix */}
-              <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6">
-                <h3 className="text-xs font-mono uppercase text-slate-400 font-semibold mb-4 tracking-wider">
+              <div className="bg-[#151b2b] border border-[#1f2940] rounded-3xl p-6">
+                <h3 className="text-xs font-mono uppercase text-blue-200/60 font-semibold mb-4 tracking-wider">
                   Automated Security Module Verification Matrix
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 font-mono text-xs">
-                  <div className="flex items-center justify-between p-3 rounded-xl bg-slate-950/80 border border-slate-800">
-                    <span className="text-slate-300">1. Authentication Controls</span>
+                  <div className="flex items-center justify-between p-3 rounded-2xl bg-[#0a0f1c]/80 border border-[#1f2940]">
+                    <span className="text-blue-100/80">1. Authentication Controls</span>
                     {scan.findings.some(f => f.category === 'Authentication') ? (
                       <span className="text-red-400 flex items-center gap-1">✕ Vulnerable</span>
                     ) : (
                       <span className="text-emerald-400 flex items-center gap-1">✓ Passed</span>
                     )}
                   </div>
-                  <div className="flex items-center justify-between p-3 rounded-xl bg-slate-950/80 border border-slate-800">
-                    <span className="text-slate-300">2. Authorization / BOLA</span>
+                  <div className="flex items-center justify-between p-3 rounded-2xl bg-[#0a0f1c]/80 border border-[#1f2940]">
+                    <span className="text-blue-100/80">2. Authorization / BOLA</span>
                     {scan.findings.some(f => f.category.includes('Authorization')) ? (
                       <span className="text-orange-400 flex items-center gap-1">⚠ Vulnerable</span>
                     ) : (
                       <span className="text-emerald-400 flex items-center gap-1">✓ Passed</span>
                     )}
                   </div>
-                  <div className="flex items-center justify-between p-3 rounded-xl bg-slate-950/80 border border-slate-800">
-                    <span className="text-slate-300">3. Input Validation</span>
+                  <div className="flex items-center justify-between p-3 rounded-2xl bg-[#0a0f1c]/80 border border-[#1f2940]">
+                    <span className="text-blue-100/80">3. Input Validation</span>
                     {scan.findings.some(f => f.category === 'Input Validation') ? (
                       <span className="text-red-400 flex items-center gap-1">✕ Vulnerable</span>
                     ) : (
                       <span className="text-emerald-400 flex items-center gap-1">✓ Passed</span>
                     )}
                   </div>
-                  <div className="flex items-center justify-between p-3 rounded-xl bg-slate-950/80 border border-slate-800">
-                    <span className="text-slate-300">4. Security Headers</span>
+                  <div className="flex items-center justify-between p-3 rounded-2xl bg-[#0a0f1c]/80 border border-[#1f2940]">
+                    <span className="text-blue-100/80">4. Security Headers</span>
                     {scan.findings.some(f => f.category === 'Security Headers') ? (
                       <span className="text-amber-400 flex items-center gap-1">⚠ Missing</span>
                     ) : (
                       <span className="text-emerald-400 flex items-center gap-1">✓ Passed</span>
                     )}
                   </div>
-                  <div className="flex items-center justify-between p-3 rounded-xl bg-slate-950/80 border border-slate-800">
-                    <span className="text-slate-300">5. Rate Limiting</span>
+                  <div className="flex items-center justify-between p-3 rounded-2xl bg-[#0a0f1c]/80 border border-[#1f2940]">
+                    <span className="text-blue-100/80">5. Rate Limiting</span>
                     {scan.findings.some(f => f.category === 'Rate Limiting') ? (
                       <span className="text-orange-400 flex items-center gap-1">⚠ Missing</span>
                     ) : (
                       <span className="text-emerald-400 flex items-center gap-1">✓ Passed</span>
                     )}
                   </div>
-                  <div className="flex items-center justify-between p-3 rounded-xl bg-slate-950/80 border border-slate-800">
-                    <span className="text-slate-300">6. Information Disclosure</span>
+                  <div className="flex items-center justify-between p-3 rounded-2xl bg-[#0a0f1c]/80 border border-[#1f2940]">
+                    <span className="text-blue-100/80">6. Information Disclosure</span>
                     {scan.findings.some(f => f.category === 'Information Disclosure') ? (
                       <span className="text-red-400 flex items-center gap-1">✕ Leaking</span>
                     ) : (
@@ -380,17 +380,17 @@ export default function Dashboard() {
         {/* Tab Navigation: Findings / Endpoints */}
         {scan && (
           <section className="space-y-4">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-3">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-[#1f2940] pb-3">
               <div className="flex items-center space-x-2">
                 <button
                   onClick={() => setActiveTab('findings')}
-                  className={`px-4 py-2 rounded-xl text-xs font-mono font-bold tracking-wider uppercase transition-all ${activeTab === 'findings' ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/40' : 'text-slate-400 hover:text-white'}`}
+                  className={`px-4 py-2 rounded-2xl text-xs font-mono font-bold tracking-wider uppercase transition-all ${activeTab === 'findings' ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/40' : 'text-blue-200/60 hover:text-white'}`}
                 >
                   Vulnerabilities ({scan.total_findings})
                 </button>
                 <button
                   onClick={() => setActiveTab('endpoints')}
-                  className={`px-4 py-2 rounded-xl text-xs font-mono font-bold tracking-wider uppercase transition-all ${activeTab === 'endpoints' ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/40' : 'text-slate-400 hover:text-white'}`}
+                  className={`px-4 py-2 rounded-2xl text-xs font-mono font-bold tracking-wider uppercase transition-all ${activeTab === 'endpoints' ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/40' : 'text-blue-200/60 hover:text-white'}`}
                 >
                   Discovered Endpoints ({scan.endpoints_count})
                 </button>
@@ -399,20 +399,20 @@ export default function Dashboard() {
               {activeTab === 'findings' && (
                 <div className="flex items-center space-x-3 w-full sm:w-auto">
                   <div className="relative flex-1 sm:w-64">
-                    <Search className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-2.5" />
+                    <Search className="w-3.5 h-3.5 text-blue-300/40 absolute left-3 top-2.5" />
                     <input
                       type="text"
                       placeholder="Filter issues..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full bg-slate-900 border border-slate-800 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
+                      className="w-full bg-[#151b2b] border border-[#1f2940] rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
                     />
                   </div>
 
                   <select
                     value={selectedSeverity}
                     onChange={(e) => setSelectedSeverity(e.target.value)}
-                    className="bg-slate-900 border border-slate-800 text-xs font-mono text-slate-300 rounded-lg px-3 py-1.5 focus:outline-none focus:border-cyan-500"
+                    className="bg-[#151b2b] border border-[#1f2940] text-xs font-mono text-blue-100/80 rounded-lg px-3 py-1.5 focus:outline-none focus:border-cyan-500"
                   >
                     <option value="ALL">All Severities</option>
                     <option value="CRITICAL">Critical</option>
@@ -428,17 +428,17 @@ export default function Dashboard() {
             {activeTab === 'findings' && (
               <div className="space-y-3">
                 {filteredFindings.length === 0 ? (
-                  <div className="text-center py-12 bg-slate-900/30 rounded-2xl border border-slate-800/60">
+                  <div className="text-center py-12 bg-[#151b2b] rounded-3xl border border-[#1f2940]">
                     <CheckCircle2 className="w-10 h-10 text-emerald-400 mx-auto mb-2 opacity-80" />
-                    <h4 className="text-sm font-bold text-slate-300">Zero Matching Vulnerabilities</h4>
-                    <p className="text-xs text-slate-500 mt-1">No security weaknesses match your active filters.</p>
+                    <h4 className="text-sm font-bold text-blue-100/80">Zero Matching Vulnerabilities</h4>
+                    <p className="text-xs text-blue-300/40 mt-1">No security weaknesses match your active filters.</p>
                   </div>
                 ) : (
                   filteredFindings.map((finding) => (
                     <div
                       key={finding.id}
                       onClick={() => setSelectedFinding(finding)}
-                      className="p-4 rounded-xl bg-slate-900/70 hover:bg-slate-900 border border-slate-800/80 hover:border-cyan-500/40 transition-all cursor-pointer flex items-center justify-between group shadow-md"
+                      className="p-4 rounded-2xl bg-[#151b2b] hover:bg-[#151b2b] border border-[#1f2940] hover:border-cyan-500/40 transition-all cursor-pointer flex items-center justify-between group shadow-md"
                     >
                       <div className="flex items-start space-x-4">
                         <div className="mt-0.5">
@@ -449,19 +449,19 @@ export default function Dashboard() {
                             <h4 className="text-sm font-bold text-white group-hover:text-cyan-300 transition-colors">
                               {finding.title}
                             </h4>
-                            <span className="text-xs font-mono text-slate-500 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">
+                            <span className="text-xs font-mono text-blue-300/40 bg-[#0a0f1c] px-2 py-0.5 rounded border border-[#1f2940]">
                               {finding.category}
                             </span>
                           </div>
-                          <div className="flex items-center space-x-2 text-xs font-mono text-slate-400">
+                          <div className="flex items-center space-x-2 text-xs font-mono text-blue-200/60">
                             <span className="text-cyan-400 font-bold">{finding.method}</span>
-                            <span className="text-slate-300">{finding.endpoint}</span>
+                            <span className="text-blue-100/80">{finding.endpoint}</span>
                           </div>
                         </div>
                       </div>
 
                       <div className="flex items-center space-x-3">
-                        <span className="text-xs font-mono text-slate-500 group-hover:text-cyan-400 transition-colors flex items-center gap-1">
+                        <span className="text-xs font-mono text-blue-300/40 group-hover:text-cyan-400 transition-colors flex items-center gap-1">
                           Inspect <ChevronRight className="w-4 h-4" />
                         </span>
                       </div>
@@ -475,13 +475,13 @@ export default function Dashboard() {
             {activeTab === 'endpoints' && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {scan.endpoints.map((ep, i) => (
-                  <div key={i} className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 flex items-center justify-between">
+                  <div key={i} className="p-4 rounded-2xl bg-[#151b2b] border border-[#1f2940] flex items-center justify-between">
                     <div className="space-y-1 font-mono text-xs">
                       <div className="flex items-center space-x-2">
-                        <span className="px-2 py-0.5 rounded bg-slate-800 text-cyan-400 font-bold">{ep.method}</span>
+                        <span className="px-2 py-0.5 rounded bg-[#1f2940] text-cyan-400 font-bold">{ep.method}</span>
                         <span className="text-slate-200 font-bold">{ep.path}</span>
                       </div>
-                      <p className="text-slate-400 text-[11px] font-sans">{ep.summary || 'Discovered Route'}</p>
+                      <p className="text-blue-200/60 text-[11px] font-sans">{ep.summary || 'Discovered Route'}</p>
                     </div>
                     {ep.requires_auth && (
                       <span className="text-[10px] font-mono bg-indigo-950/80 text-indigo-400 border border-indigo-800/60 px-2 py-0.5 rounded-full font-bold">
@@ -497,13 +497,13 @@ export default function Dashboard() {
 
         {/* Empty State when no scan has been run */}
         {!scan && !isScanning && (
-          <div className="text-center py-20 bg-slate-900/40 rounded-3xl border border-slate-800/80 space-y-4">
-            <div className="w-16 h-16 rounded-2xl bg-cyan-950/50 border border-cyan-800/40 flex items-center justify-center mx-auto text-cyan-400">
+          <div className="text-center py-20 bg-[#151b2b] rounded-3xl border border-[#1f2940] space-y-4">
+            <div className="w-16 h-16 rounded-3xl bg-cyan-950/50 border border-cyan-800/40 flex items-center justify-center mx-auto text-cyan-400">
               <ShieldCheck className="w-8 h-8" />
             </div>
             <div className="space-y-1">
               <h3 className="text-lg font-bold text-white">No Security Scan Active</h3>
-              <p className="text-xs text-slate-400 max-w-md mx-auto font-mono">
+              <p className="text-xs text-blue-200/60 max-w-md mx-auto font-mono">
                 Launch a live security scan against a custom target URL or click &quot;Run Demo Security Scan&quot; to evaluate the embedded vulnerable target.
               </p>
             </div>
