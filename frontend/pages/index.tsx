@@ -141,7 +141,7 @@ export default function Dashboard() {
             <div style={{ opacity: isScanning ? 0.5 : 1, pointerEvents: isScanning ? 'none' : 'auto' }}>
               <ScanGridButton
                 label={isScanning ? "SCANNING..." : "RUN DEMO SCAN"}
-                rounded={12}
+                rounded={60}
                 colors={{ fill: "#083344", hoverFill: "#164e63", textColor: "#22d3ee", hoverTextColor: "#67e8f9" }}
                 scan={{ color: "#06b6d4", speed: 50 }}
                 font={{ fontFamily: "monospace", fontWeight: "bold", fontSize: 12, letterSpacing: "1px" }}
@@ -209,7 +209,7 @@ export default function Dashboard() {
                   <div className="w-full" style={{ opacity: (isScanning || !targetUrl) ? 0.5 : 1, pointerEvents: (isScanning || !targetUrl) ? 'none' : 'auto' }}>
                     <ScanGridButton
                       label={isScanning ? "SCANNING..." : "LAUNCH SECURITY SCAN"}
-                      rounded={12}
+                      rounded={60}
                       colors={{ fill: "#1e293b", hoverFill: "#334155", textColor: "#ffffff", hoverTextColor: "#ffffff" }}
                       scan={{ color: "#38bdf8", speed: 50 }}
                       font={{ fontFamily: "monospace", fontWeight: "bold", fontSize: 12, letterSpacing: "1px" }}
@@ -510,7 +510,7 @@ export default function Dashboard() {
             <div style={{ opacity: isScanning ? 0.5 : 1, pointerEvents: isScanning ? 'none' : 'auto' }}>
               <ScanGridButton
                 label={isScanning ? "SCANNING..." : "LAUNCH DEMO SCAN (INSTANT)"}
-                rounded={16}
+                rounded={60}
                 colors={{ fill: "#083344", hoverFill: "#164e63", textColor: "#22d3ee", hoverTextColor: "#67e8f9" }}
                 scan={{ color: "#06b6d4", speed: 50 }}
                 font={{ fontFamily: "monospace", fontWeight: "bold", fontSize: 14, letterSpacing: "1px" }}

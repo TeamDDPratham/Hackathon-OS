@@ -613,7 +613,7 @@ export default function ScanGridButton(props: Props) {
                         position: "relative",
                         zIndex: 3,
                         display: "inline-block",
-                        whiteSpace: "pre-wrap",
+                        whiteSpace: "nowrap",
                     }}
                 >
                     {chars.map((char, i) => (
