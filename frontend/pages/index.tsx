@@ -106,8 +106,9 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-cyan-500 selection:text-black">
       <Head>
-        <title>Sentinel API — Automated API Security Testing Platform</title>
+        <title>Sentinel API – Automated API Security Testing Platform</title>
         <meta name="description" content="Automated OWASP API vulnerability scanner and security assessment platform." />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </Head>
 
       {/* Top Navbar */}
