@@ -3,6 +3,7 @@ from typing import List, Dict, Any
 from backend.models.schemas import DiscoveredEndpoint
 
 COMMON_API_PATHS = [
+    ("/", "GET", "API Root"),
     ("/health", "GET", "Health Check"),
     ("/api/health", "GET", "API Health"),
     ("/api/v1/health", "GET", "API v1 Health"),
