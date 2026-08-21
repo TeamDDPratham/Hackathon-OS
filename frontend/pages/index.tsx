@@ -8,7 +8,7 @@ import { FindingDrawer } from '../components/FindingDrawer';
 import { OpenApiModal } from '../components/OpenApiModal';
 import { exportScanAsJson, exportScanAsMarkdown } from '../lib/exportReport';
 import {
-  ShieldAlert, Zap, RefreshCw, CheckCircle2,
+  ShieldCheck, Zap, RefreshCw, CheckCircle2,
   Search, Server, Lock, ChevronRight, Download,
   Terminal, PlayCircle, FileJson, FileText
 } from 'lucide-react';
@@ -115,7 +115,7 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-cyan-900/30">
-              <ShieldAlert className="w-6 h-6 text-white" />
+              <ShieldCheck className="w-6 h-6 text-white" />
             </div>
             <div>
               <div className="flex items-center space-x-2">
@@ -492,7 +492,7 @@ export default function Dashboard() {
         {!scan && !isScanning && (
           <div className="text-center py-20 bg-slate-900/40 rounded-3xl border border-slate-800/80 space-y-4">
             <div className="w-16 h-16 rounded-2xl bg-cyan-950/50 border border-cyan-800/40 flex items-center justify-center mx-auto text-cyan-400">
-              <ShieldAlert className="w-8 h-8" />
+              <ShieldCheck className="w-8 h-8" />
             </div>
             <div className="space-y-1">
               <h3 className="text-lg font-bold text-white">No Security Scan Active</h3>
