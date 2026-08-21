@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import PixelSnow from './PixelSnow';
 
 export default function Preloader({ onComplete }: { onComplete: () => void }) {
   const [progress, setProgress] = useState(0);
@@ -39,7 +40,20 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
       transition={{ duration: 0.8, ease: 'easeInOut' }}
       className="fixed inset-0 z-50 flex items-center justify-center bg-[#0a0f1c] overflow-hidden"
     >
-      <div className="relative w-[500px] h-[500px] flex items-center justify-center">
+      <div className="absolute inset-0 z-0 opacity-40">
+        <PixelSnow 
+          color="#06b6d4"
+          flakeSize={0.01}
+          minFlakeSize={1.25}
+          pixelResolution={100}
+          speed={1.5}
+          density={0.4}
+          direction={125}
+          brightness={1}
+        />
+      </div>
+
+      <div className="relative w-[500px] h-[500px] flex items-center justify-center z-10">
         {/* Outer dashed ring */}
         <motion.div
           animate={{ rotate: 360 }}
