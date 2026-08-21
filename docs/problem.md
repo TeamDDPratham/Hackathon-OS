@@ -1,110 +1,46 @@
-# Problem Statement Template
+# Hackathon Problem Statement & Deconstruction
 
-> **Status**: PENDING HACKATHON BRIEF  
-> **Last Updated**: [Date / Time]  
-> **Problem Track / Category**: [Track Name]
-
----
-
-## 1. Raw Problem Statement
-<!-- Paste the exact, verbatim problem prompt or hackathon brief here -->
-```text
-[Insert raw problem statement provided by the hackathon organizers]
-```
+> **Project Name**: Sentinel API (Automated API Security Testing Platform)  
+> **Ingestion Timestamp**: 2026-08-22 00:20 IST  
+> **Total Time Budget**: 6.0 Hours (Reserved Buffer: 1.0 Hour / Effective Build Window: 5.0 Hours)
 
 ---
 
-## 2. Problem Summary
-<!-- Synthesize the problem into 2–3 crisp, unambiguous sentences -->
-* **Core Friction**: 
-* **Current Bottleneck**: 
-* **Target Outcome**: 
+## 1. Problem Statement
+APIs frequently expose sensitive application business logic and databases. Weak authentication, authorization controls (BOLA/IDOR), missing input validation, excessive error disclosure, missing security headers, and unrestricted rate-limiting leave APIs vulnerable to abuse and data breaches. Developers and security auditors need a safe, automated, deterministic platform to evaluate target APIs, surface vulnerabilities with actionable evidence, and receive remediation guidance.
 
 ---
 
-## 3. Target Users & Personas
-<!-- Who specifically suffers from this problem? -->
-
-### Primary Persona: [User Group A]
-- **Role / Profile**: 
-- **Daily Context**: 
-- **Core Motivation**: 
-- **Primary Frustration**: 
-
-### Secondary Persona: [User Group B]
-- **Role / Profile**: 
-- **Interaction with System**: 
+## 2. Target Personas
+1. **Primary**: Backend / Security Engineer (Needs to test API endpoints against OWASP API Top 10 vulnerabilities with reproducible evidence and remediation).
+2. **Secondary / Judge**: Hackathon Evaluator (Needs a 1-click Demo Target scan to instantly visualize vulnerabilities, progress, security score, and remediation in <60 seconds).
 
 ---
 
-## 4. User Pain Points
-<!-- Specific, observable negative experiences -->
-1. **Pain Point 1**: 
-2. **Pain Point 2**: 
-3. **Pain Point 3**: 
+## 3. Explicit Requirements
+1. **Target Input & Discovery**: Support direct URL target input and OpenAPI / Swagger spec ingestion.
+2. **Deterministic Security Test Engine**:
+   - Authentication Testing (PASS / WARN / FAIL on unprotected routes).
+   - Authorization & Access Control (Compare unauthenticated vs authenticated access).
+   - Input Validation (Safe bounded malformed strings, oversized numbers, invalid JSON types).
+   - Security Headers Check (`CSP`, `HSTS`, `X-Content-Type-Options`, `X-Frame-Options`).
+   - Rate Limiting Indicators (Safe bounded repeated requests, Retry-After header detection).
+   - Information Disclosure (Stack traces, framework/version leaks, database error messages).
+3. **Finding Normalizer & Risk Scoring**: Standardized finding schema with Severity (CRITICAL, HIGH, MEDIUM, LOW, INFO) and deterministic score (0–100).
+4. **Remediation Guidance**: Clear description of what was detected, why it matters, evidence, endpoint, and actionable code/config fix.
+5. **Local Demo Vulnerable API**: Self-contained intentionally vulnerable test target for 100% offline, fail-safe live judging.
+6. **Cybersecurity Dashboard UI**: Real-time progress bar, statistics, severity badges, interactive finding drawer/modal, 4-state handling.
 
 ---
 
-## 5. Existing Solutions & Current Alternatives
-<!-- How do users solve this today, and where do those solutions fail? -->
-| Current Alternative | Mechanism / Workflow | Critical Flaws & Gaps |
-| :------------------ | :------------------- | :-------------------- |
-| *Alternative 1*     |                      |                       |
-| *Alternative 2*     |                      |                       |
+## 4. Constraints & Safety Guardrails
+- **Defensive & Non-Destructive**: Zero destructive exploitation, zero denial-of-service, zero credential stuffing, bounded safe payloads.
+- **Zero Cloud / AI Dependencies for Core Engine**: Fully operational offline without Gemini/external keys; optional AI for plain-language explanations with deterministic fallback.
+- **Strict 6-Hour Time Window**: Avoid microservices, Kubernetes, complex multi-tenant auth, or heavy enterprise bloat.
 
 ---
 
-## 6. Identified Gaps & Opportunity
-<!-- What makes this unsolved or poorly served today? -->
-- **Technical Gap**: 
-- **UX / Workflow Gap**: 
-- **Economic / Scalability Gap**: 
-
----
-
-## 7. Functional Requirements (FRs)
-<!-- What the product MUST do -->
-- [ ] **FR-01 (Core)**: 
-- [ ] **FR-02 (Core)**: 
-- [ ] **FR-03 (Killer)**: 
-- [ ] **FR-04 (Polish)**: 
-
----
-
-## 8. Non-Functional Requirements (NFRs)
-<!-- Performance, security, accessibility, and reliability metrics -->
-- **Performance / Latency**: e.g., Response time < 500ms for core actions; AI streaming response within 1.5s.
-- **Reliability**: Deterministic demo flow with graceful degradation on third-party failure.
-- **Security / Privacy**: Input validation, zero secret leakage, safe handling of sensitive data.
-- **Usability**: First-time user understandability within 30 seconds.
-
----
-
-## 9. Constraints & Limitations
-<!-- Hackathon time, APIs, compliance, platform constraints -->
-- **Time Constraint**: [e.g., 24-hour / 36-hour build window]
-- **API Limits / Availability**: 
-- **Regulatory / Privacy Constraints**: 
-
----
-
-## 10. Core Assumptions
-<!-- Explicit assumptions made to bound the scope -->
-1. 
-2. 
-3. 
-
----
-
-## 11. Success Metrics & Validation
-<!-- How will we prove that the solution succeeded? -->
-- **Primary Metric**: 
-- **Secondary Metric**: 
-- **Demo Verification Metric**: 
-
----
-
-## 12. Open Questions & Ambiguities
-<!-- Questions requiring clarification before architecture/implementation -->
-- [ ] **Q1**: 
-- [ ] **Q2**: 
+## 5. Success Metrics
+- End-to-end scan on Demo Target completes in <10 seconds.
+- 100% reproducible deterministic security score and finding evidence.
+- Zero uncaught exceptions; complete 4-state UI coverage.

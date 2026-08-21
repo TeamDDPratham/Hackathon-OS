@@ -1,128 +1,95 @@
-# System Architecture
+# Sentinel API — System Architecture & Design
 
-> **Status**: DRAFT / PENDING PROBLEM STATEMENT  
-> **Pattern**: Layered Modular Architecture / Modular Monolith  
-> **Last Updated**: [Date / Time]
-
----
-
-## 1. Architecture Overview
-<!-- High-level architectural narrative describing how data and requests flow through the system -->
-[Describe the system topology, component boundaries, and key design decisions tailored to the chosen problem.]
+> **Status**: APPROVED (Post Human Gate 1)  
+> **Last Updated**: 2026-08-22 00:26 IST
 
 ---
 
-## 2. Architecture Diagram
+## 1. System Topology
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│                   PRESENTATION LAYER                   │
-│          (Web / Mobile Client / UI Components)         │
-└───────────────────────────┬────────────────────────────┘
-                            │  HTTPS / WSS / JSON
-                            ▼
-┌────────────────────────────────────────────────────────┐
-│                       API LAYER                        │
-│          (Routing / Validation / Auth / Middleware)    │
-└─────────────┬───────────────────────────┬──────────────┘
-              │                           │
-              ▼                           ▼
-┌───────────────────────────┐ ┌──────────────────────────┐
-│      DOMAIN SERVICES      │ │       AI SERVICES        │
-│  (Business Logic/Rules)   │ │ (Prompting/Schemas/LLM)  │
-└─────────────┬─────────────┘ └───────────┬──────────────┘
-              │                           │
-              ▼                           ▼
-┌───────────────────────────┐ ┌──────────────────────────┐
-│     DATA REPOSITORIES     │ │    EXTERNAL ADAPTERS     │
-│   (CRUD / Query Engine)   │ │  (Third-Party APIs/SDKs) │
-└─────────────┬─────────────┘ └──────────────────────────┘
-              │
-              ▼
-┌───────────────────────────┐
-│     PERSISTENCE LAYER     │
-│   (Database / Cache Store)│
-└───────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────┐
+│             PRESENTATION LAYER (Next.js 14 / TypeScript)               │
+│  - Cyber Dark Dashboard (Tailwind CSS, Lucide Icons)                   │
+│  - Real-Time Scan Progress & Statistics                                │
+│  - Interactive Finding Inspector & Code Diff Viewer                    │
+│  - Deterministic Security Score Meter (0-100)                          │
+│  - 4-State UI (Loading Skeleton, Empty State, Active Scan, Error)      │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │ HTTP REST & SSE Polling
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                 API & ROUTING LAYER (FastAPI / Python)                 │
+│  - /api/health (Health check)                                          │
+│  - /api/scans (POST: start scan, GET: list scans)                      │
+│  - /api/scans/{id} (GET: scan details, POST: cancel)                   │
+│  - /api/scans/{id}/findings (GET: categorized vulnerabilities)         │
+│  - /api/demo/scan (POST: 1-click mock vulnerable scan)                 │
+│  - /api/mock-vulnerable/* (Intentionally vulnerable demo endpoints)    │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│             SERVICE & SCAN ENGINE LAYER (Python Services)              │
+│  - ScanOrchestrator: Coordinates discovery, execution, normalization   │
+│  - EndpointDiscovery: Extracts routes from OpenAPI specs or crawls     │
+│  - SecurityModules:                                                    │
+│    ├── 1. AuthEngine (Missing auth on sensitive endpoints)             │
+│    ├── 2. AuthZEngine (BOLA / IDOR cross-tenant access testing)        │
+│    ├── 3. InputValidationEngine (Type confusion, boundary checks)      │
+│    ├── 4. SecurityHeadersEngine (CSP, HSTS, X-Frame, X-Content-Type)   │
+│    ├── 5. RateLimitEngine (Bounded burst tests, Retry-After header)    │
+│    └── 6. InfoDisclosureEngine (Stack trace leaks, SQL syntax errors)  │
+│  - ScoringEngine: Deterministic formula: 100 - sum(severity_weights)   │
+│  - RemediationEngine: Deterministic code/config remediation rules      │
+│  - AIService: Optional Gemini explanations with 100% offline fallback  │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│             PERSISTENCE LAYER (In-Memory / SQLite)                     │
+│  - ScanStore (Stores scans, findings, discovered endpoints)            │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 3. Technology Stack Selection
+## 2. API Contract & Schema Definition
 
-| Component | Selected Technology | Rationale & Justification |
-| :--- | :--- | :--- |
-| **Frontend Framework** | *[e.g., Next.js / React + Vite]* | Fast iteration, SSR/SPA flexibility, rich UI ecosystem |
-| **Styling / Components** | *[e.g., Tailwind CSS + shadcn/ui]* | Rapid prototyping, consistent accessible UI |
-| **Backend API** | *[e.g., FastAPI / Node.js Express]* | Type safety, rapid async execution, auto docs |
-| **Database** | *[e.g., PostgreSQL + Prisma/SQLAlchemy]* | Relational integrity, structured queries |
-| **AI / LLM Integration** | *[e.g., Gemini 1.5 Pro / Flash via SDK]* | High context window, structured JSON mode, speed |
-| **Cache / Queue** | *[e.g., Redis / In-Memory]* | Low latency session/state caching |
-| **Deployment** | *[e.g., Vercel / Cloud Run]* | Instant deployment, zero-config scaling |
+### Finding Schema:
+```json
+{
+  "id": "find_auth_01",
+  "title": "Unauthenticated Access to Sensitive Resource",
+  "category": "Authentication",
+  "severity": "HIGH",
+  "endpoint": "/api/users/profile",
+  "method": "GET",
+  "description": "The endpoint was accessed without an Authorization header and returned 200 OK with sensitive user payload.",
+  "evidence": {
+    "request": "GET /api/users/profile HTTP/1.1\nHost: target-api",
+    "response_status": 200,
+    "response_sample": "{\"id\": 1, \"email\": \"admin@company.com\", \"role\": \"admin\"}"
+  },
+  "impact": "Unauthenticated attackers can exfiltrate sensitive user records.",
+  "recommendation": "Enforce authentication middleware on all private API routes and verify JWT signatures.",
+  "remediation_code": "@router.get('/profile')\ndef get_profile(current_user: User = Depends(get_current_user)):\n    return current_user",
+  "status": "FAIL"
+}
+```
 
----
-
-## 4. Frontend Architecture
-- **State Management**: 
-- **Routing & Navigation**: 
-- **Client-Side Validation**: 
-- **Component Hierarchy**: 
-
----
-
-## 5. Backend & Service Layer Architecture
-- **API Pattern**: RESTful / GraphQL / WebSocket
-- **Service Segregation**: 
-  - `AuthService`: Authentication, session verification, JWT handling.
-  - `CoreDomainService`: Business workflow logic and state transitions.
-  - `AIService`: Model prompting, schema validation, structured output parsing, fallback orchestration.
-- **Repository Layer**: Data access isolation; ORM/raw query boundary.
-
----
-
-## 6. Database & Data Model
-- **Schema Overview**: [Entity relationships and tables]
-- **Indexes & Optimizations**: 
-- **Migrations Strategy**: 
-
----
-
-## 7. AI Layer Specification
-- **Model Selection & Configuration**: (Temperature, max tokens, response format)
-- **Prompt Isolation**: Prompts stored in `prompts/` with semantic versioning.
-- **Structured Output Strategy**: Strict schema enforcement (JSON Schema / Pydantic / Zod).
-- **Fallback & Resilience**: Heuristic rules when AI service is unavailable or times out.
-
----
-
-## 8. External Integrations & APIs
-- **Service 1**: 
-- **Service 2**: 
-
----
-
-## 9. Security Boundaries & Auth
-- **Authentication**: JWT / Session / OAuth2
-- **Authorization**: Role-Based Access Control (RBAC) at route middleware.
-- **Data Protection**: Input sanitization, parameterized queries, environment variable secrets.
-
----
-
-## 10. Deployment & Infrastructure
-- **Frontend Hosting**: 
-- **Backend Hosting**: 
-- **Database Hosting**: 
-- **CI/CD & Environment Variables**: 
-
----
-
-## 11. Scalability & Performance
-- **Bottleneck Analysis**: 
-- **Caching Strategy**: 
-- **Payload Optimization**: 
-
----
-
-## 12. Failure Handling & Graceful Degradation
-- **Network / API Outage**: Retry with exponential backoff; return cached or heuristic fallback.
-- **Database Failure**: Clear user error notifications, transaction rollbacks.
-- **AI Malformed Response**: Automated schema retry $\to$ fallback to default template.
+### Deterministic Score Calculation:
+- **Starting Score**: `100`
+- **Penalty Weights**:
+  - `CRITICAL`: -25 points
+  - `HIGH`: -15 points
+  - `MEDIUM`: -8 points
+  - `LOW`: -3 points
+  - `INFO`: 0 points
+- **Clamped Score**: `max(0, min(100, 100 - TotalPenalties))`
+- **Score Ratings**:
+  - `90 - 100`: Excellent (A)
+  - `75 - 89`: Good (B)
+  - `60 - 74`: Needs Improvement (C)
+  - `40 - 59`: Poor (D)
+  - `0 - 39`: Critical Vulnerabilities Found (F)

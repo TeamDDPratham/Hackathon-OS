@@ -1,42 +1,19 @@
-# Architecture Decision Records (ADR)
+# Architecture Decision Records (ADRs)
 
-This document tracks all significant architectural, stack, and structural decisions made during the hackathon. Never make a major technical decision silently.
+## ADR-001: Selection of FastAPI (Backend) & Next.js (Frontend)
+- **Status**: ACCEPTED
+- **Context**: 6-hour hackathon to build a high-performance, demonstrable API security testing platform.
+- **Decision**: Use Python FastAPI with `httpx` for async non-blocking HTTP security testing, and Next.js 14 with Tailwind CSS for a reactive, high-polish cybersecurity UI.
+- **Consequences**: Fast development velocity, native async security probes, clean typed API contracts.
 
----
+## ADR-002: Embedded Local Mock Vulnerable API for 100% Offline Demo
+- **Status**: ACCEPTED
+- **Context**: Hackathon live presentations often suffer from WiFi drops, external target timeouts, or API outages.
+- **Decision**: Embed an intentionally vulnerable set of mock routes directly inside the FastAPI backend (`/api/mock-vulnerable/*`).
+- **Consequences**: Zero external dependencies needed for the 3-minute live judge demo.
 
-## ADR-000: Adoption of Reusable Hackathon OS & Dynamic Stack Strategy
-
-* **Status**: ACCEPTED  
-* **Date**: 2026-08-21  
-* **Context**: Preparing a competitive hackathon workspace before receiving the specific challenge brief.  
-* **Decision**: We will not pre-select frameworks, databases, or build application code before analyzing the problem. We adopt the 20-phase Hackathon OS with dynamic modular architecture.  
-* **Alternatives Considered**: 
-  - *Pre-baking a Next.js/FastAPI stack*: Rejected because the problem statement may require real-time WebSockets, embedded Python data pipelines, or a mobile/desktop target.
-* **Consequences**: Architecture remains flexible, clean, and 100% problem-aligned.
-
----
-
-## ADR-Template (Use for future decisions)
-
-### ADR-XXX: [Short Title of Decision]
-
-#### 1. Decision
-[Concise statement of the architectural choice made]
-
-#### 2. Context & Problem Statement
-[What problem or constraint forced this decision?]
-
-#### 3. Alternatives Considered
-1. **Alternative A**: [Pros & Cons]
-2. **Alternative B**: [Pros & Cons]
-
-#### 4. Selected Approach & Rationale
-[Why was the chosen option selected over the alternatives?]
-
-#### 5. Consequences & Trade-offs
-* **Positive**: [What becomes easier or faster?]
-* **Negative / Risks**: [What technical debt, complexity, or limitations are introduced?]
-* **Mitigation**: [How will the risks be managed?]
-
-#### 6. Status
-`PROPOSED` | `ACCEPTED` | `DEPRECATED` | `SUPERSEDED`
+## ADR-003: Deterministic Rule-Based Scoring with Optional AI Enrichment
+- **Status**: ACCEPTED
+- **Context**: Judges require reproducible, credible vulnerability scoring without arbitrary AI hallucination.
+- **Decision**: Implement a mathematical penalty scoring algorithm (0–100) and deterministic remediation templates. Use Gemini solely for optional interactive natural-language explanations with full offline fallbacks.
+- **Consequences**: 100% reliable scanner operation even if no Gemini API key is provided.
