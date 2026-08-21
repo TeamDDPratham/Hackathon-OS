@@ -8,10 +8,11 @@ import { FindingDrawer } from '../components/FindingDrawer';
 import { OpenApiModal } from '../components/OpenApiModal';
 import { exportScanAsJson, exportScanAsMarkdown } from '../lib/exportReport';
 import {
-  ShieldCheck, Zap, RefreshCw, CheckCircle2,
+  ShieldCheck, CheckCircle2,
   Search, Server, Lock, ChevronRight, Download,
-  Terminal, PlayCircle, FileJson, FileText
+  Terminal, FileJson, FileText
 } from 'lucide-react';
+import ScanGridButton from '../components/originkit/ui/scan-grid-button';
 
 export default function Dashboard() {
   const [targetUrl, setTargetUrl] = useState('http://127.0.0.1:8000');
@@ -137,18 +138,18 @@ export default function Dashboard() {
               <span className="text-slate-300">CORE ENGINE: {backendHealth ? 'ONLINE' : 'OFFLINE'}</span>
             </div>
 
-            <button
-              onClick={handleRunDemoScan}
-              disabled={isScanning}
-              className="flex items-center space-x-2 px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-bold text-xs tracking-wide uppercase transition-all shadow-lg shadow-cyan-500/20 disabled:opacity-50"
-            >
-              {isScanning ? (
-                <RefreshCw className="w-4 h-4 animate-spin" />
-              ) : (
-                <Zap className="w-4 h-4 fill-current" />
-              )}
-              <span>Run Demo Security Scan</span>
-            </button>
+            <div style={{ opacity: isScanning ? 0.5 : 1, pointerEvents: isScanning ? 'none' : 'auto' }}>
+              <ScanGridButton
+                label={isScanning ? "SCANNING..." : "RUN DEMO SCAN"}
+                rounded={12}
+                colors={{ fill: "#083344", hoverFill: "#164e63", textColor: "#22d3ee", hoverTextColor: "#67e8f9" }}
+                scan={{ color: "#06b6d4", speed: 50 }}
+                font={{ fontFamily: "monospace", fontWeight: "bold", fontSize: 12, letterSpacing: "1px" }}
+                border={{ borderWidth: 1, borderStyle: "solid", borderColor: "#164e63" }}
+                onClick={handleRunDemoScan}
+                padding="8px 16px"
+              />
+            </div>
           </div>
         </div>
       </header>
@@ -204,16 +205,21 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div className="md:col-span-2 flex items-end">
-                <button
-                  type="submit"
-                  disabled={isScanning || !targetUrl}
-                  className="w-full h-[42px] rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs font-mono uppercase tracking-wider transition-all border border-slate-700 disabled:opacity-50 flex items-center justify-center space-x-2"
-                >
-                  <PlayCircle className="w-4 h-4 text-cyan-400" />
-                  <span>Launch Scan</span>
-                </button>
-              </div>
+                <div className="md:col-span-2 flex items-end">
+                  <div className="w-full" style={{ opacity: (isScanning || !targetUrl) ? 0.5 : 1, pointerEvents: (isScanning || !targetUrl) ? 'none' : 'auto' }}>
+                    <ScanGridButton
+                      label={isScanning ? "SCANNING..." : "LAUNCH SECURITY SCAN"}
+                      rounded={12}
+                      colors={{ fill: "#1e293b", hoverFill: "#334155", textColor: "#ffffff", hoverTextColor: "#ffffff" }}
+                      scan={{ color: "#38bdf8", speed: 50 }}
+                      font={{ fontFamily: "monospace", fontWeight: "bold", fontSize: 12, letterSpacing: "1px" }}
+                      border={{ borderWidth: 1, borderStyle: "solid", borderColor: "#334155" }}
+                      onClick={handleStartCustomScan}
+                      padding="12px 16px"
+                      style={{ width: "100%", height: "42px" }}
+                    />
+                  </div>
+                </div>
             </div>
 
             {importedSpec && customEndpoints.length > 0 && (
@@ -501,13 +507,18 @@ export default function Dashboard() {
                 Launch a live security scan against a custom target URL or click &quot;Run Demo Security Scan&quot; to evaluate the embedded vulnerable target.
               </p>
             </div>
-            <button
-              onClick={handleRunDemoScan}
-              className="inline-flex items-center space-x-2 px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-bold text-xs tracking-wide uppercase transition-all shadow-lg shadow-cyan-500/20"
-            >
-              <Zap className="w-4 h-4 fill-current" />
-              <span>Launch Demo Scan (Instant)</span>
-            </button>
+            <div style={{ opacity: isScanning ? 0.5 : 1, pointerEvents: isScanning ? 'none' : 'auto' }}>
+              <ScanGridButton
+                label={isScanning ? "SCANNING..." : "LAUNCH DEMO SCAN (INSTANT)"}
+                rounded={16}
+                colors={{ fill: "#083344", hoverFill: "#164e63", textColor: "#22d3ee", hoverTextColor: "#67e8f9" }}
+                scan={{ color: "#06b6d4", speed: 50 }}
+                font={{ fontFamily: "monospace", fontWeight: "bold", fontSize: 14, letterSpacing: "1px" }}
+                border={{ borderWidth: 1, borderStyle: "solid", borderColor: "#164e63" }}
+                onClick={handleRunDemoScan}
+                padding="12px 24px"
+              />
+            </div>
           </div>
         )}
       </main>
