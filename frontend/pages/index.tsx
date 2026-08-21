@@ -13,8 +13,11 @@ import {
   Terminal, FileJson, FileText
 } from 'lucide-react';
 import ScanGridButton from '../components/originkit/ui/scan-grid-button';
+import Preloader from '../components/Preloader';
+import { AnimatePresence } from 'framer-motion';
 
 export default function Dashboard() {
+  const [showPreloader, setShowPreloader] = useState(true);
   const [targetUrl, setTargetUrl] = useState('http://localhost:8000');
   const [authToken, setAuthToken] = useState('demo-bearer-token-xyz');
   const [isScanning, setIsScanning] = useState(false);
@@ -106,6 +109,9 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-[#0a0f1c] text-slate-100 font-sans selection:bg-cyan-500 selection:text-black">
+      <AnimatePresence>
+        {showPreloader && <Preloader onComplete={() => setShowPreloader(false)} />}
+      </AnimatePresence>
       <Head>
         <title>Sentinel API – Automated API Security Testing Platform</title>
         <meta name="description" content="Automated OWASP API vulnerability scanner and security assessment platform." />
