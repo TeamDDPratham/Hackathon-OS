@@ -15,7 +15,7 @@ import {
 import ScanGridButton from '../components/originkit/ui/scan-grid-button';
 
 export default function Dashboard() {
-  const [targetUrl, setTargetUrl] = useState('http://127.0.0.1:8000');
+  const [targetUrl, setTargetUrl] = useState('http://localhost:8000');
   const [authToken, setAuthToken] = useState('demo-bearer-token-xyz');
   const [isScanning, setIsScanning] = useState(false);
   const [scan, setScan] = useState<ScanDetail | null>(null);
@@ -182,7 +182,7 @@ export default function Dashboard() {
                 <div className="relative">
                   <Server className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
                   <input
-                    type="url"
+                    type="text"
                     value={targetUrl}
                     onChange={(e) => setTargetUrl(e.target.value)}
                     placeholder="https://api.yourcompany.com"
