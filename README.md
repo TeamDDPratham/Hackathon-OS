@@ -2,6 +2,8 @@
 
 An adaptive, time-aware, autonomous engineering system designed to systematically transform an arbitrary hackathon problem statement into an award-winning, demo-ready product.
 
+**📺 Watch the Demo Video:** [https://youtu.be/s69TAkwclpw](https://youtu.be/s69TAkwclpw)
+
 ---
 
 ## ⏱️ The Hackathon Time Controller
